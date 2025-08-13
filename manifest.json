@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "YT De-Clutter: Hide Shorts & Playables",
+  "version": "1.1.0",
+  "description": "Removes YouTube Shorts, Playables, and the Explore section across youtube.com.",
+  "icons": {
+    "512": "icons/icon.png"
+  },
+  "action": {
+    "default_title": "YT De-Clutter",
+    "default_icon": "icons/icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "scripting",
+    "tabs",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": ["https://www.youtube.com/*", "https://m.youtube.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["hide.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}

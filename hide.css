@@ -1,0 +1,37 @@
+/* Shorts & Playables shelves/sections/items/chips/search */
+ytd-reel-shelf-renderer,
+ytd-rich-shelf-renderer:has(a[href*='/shorts']),
+ytd-rich-section-renderer:has(a[href*='/shorts']),
+ytd-rich-item-renderer:has(a[href*='/shorts']),
+ytd-video-renderer:has(a[href*='/shorts/']),
+ytd-compact-video-renderer:has(a[href*='/shorts/']),
+ytd-rich-section-renderer:has(a[href^='/playables']),
+ytd-rich-shelf-renderer:has(a[href^='/playables']),
+ytd-compact-link-renderer:has(a[href^='/playables']),
+a[href^='/playables'],
+/* Search results Shorts sections */
+/* Hide whole item sections that host a Shorts shelf */
+ytd-item-section-renderer:has(ytd-reel-shelf-renderer),
+/* Fallbacks: shelf types used in search */
+ytd-shelf-renderer:has([id="title-text"][title*='Shorts']),
+ytd-horizontal-card-list-renderer:has(a[href*='/shorts']) {
+  display: none !important;
+}
+
+/* Sidebar: entries that explicitly link to Shorts or mention it by attributes */
+ytd-guide-entry-renderer:has(a[href*='/shorts']),
+ytd-mini-guide-entry-renderer:has(a[href*='/shorts']),
+ytd-guide-entry-renderer:has(a[title*='Shorts']),
+ytd-mini-guide-entry-renderer:has(a[title*='Shorts']),
+ytd-guide-entry-renderer:has(a[aria-label*='Shorts']),
+ytd-mini-guide-entry-renderer:has(a[aria-label*='Shorts']),
+a[href*='youtube.com/shorts'],
+a[href*='/shorts'] {
+  display: none !important;
+}
+
+/* Defensive: collapse emptied wrappers */
+ytd-rich-shelf-renderer:empty,
+ytd-rich-section-renderer:empty {
+  display: none !important;
+}
