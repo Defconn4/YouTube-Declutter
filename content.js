@@ -39,20 +39,21 @@
   ];
 
   // Video watch page sidebar elements for distraction-free viewing
+  // These selectors are scoped to watch pages only in the hideVideoSidebar function
   const VIDEO_SIDEBAR_SELECTORS = [
-    '#secondary',
-    '#related',
-    '#secondary-inner',
-    'ytd-watch-next-secondary-results-renderer',
-    '#chip-bar',
-    '#chips',
-    'yt-chip-cloud-renderer',
-    '#continuity',
-    '#watch-next-continuation',
-    'ytd-compact-autoplay-renderer',
-    '#comments',
-    'ytd-comments',
-    'ytd-comments-header-renderer',
+    'ytd-watch-flexy #secondary',
+    'ytd-watch-flexy #related',
+    'ytd-watch-flexy #secondary-inner',
+    'ytd-watch-flexy ytd-watch-next-secondary-results-renderer',
+    'ytd-watch-flexy #chip-bar',
+    'ytd-watch-flexy #chips',
+    'ytd-watch-flexy yt-chip-cloud-renderer',
+    'ytd-watch-flexy #continuity',
+    'ytd-watch-flexy #watch-next-continuation',
+    'ytd-watch-flexy ytd-compact-autoplay-renderer',
+    'ytd-watch-flexy #comments',
+    'ytd-watch-flexy ytd-comments',
+    'ytd-watch-flexy ytd-comments-header-renderer',
   ];
 
   function hideMatches(root = document) {
@@ -147,27 +148,6 @@
     );
   }
 
-  /** Hide search result sections whose title text includes "Shorts" */
-  function hideShortsSections(root = document) {
-    const rx = /\bShorts\b/i;
-    const SHELF_CONTAINERS = [
-      'ytd-shelf-renderer',
-      'ytd-horizontal-card-list-renderer',
-      'ytd-rich-shelf-renderer',
-    ].join(', ');
-    root.querySelectorAll(SHELF_CONTAINERS).forEach((shelf) => {
-      if (shelf.hasAttribute(MARK)) return;
-      const titleEl = shelf.querySelector(
-        '#title-text, h2, h3, [role="heading"]'
-      );
-      const title = (titleEl?.textContent || '').trim();
-      if (rx.test(title)) {
-        shelf.setAttribute(MARK, '1');
-        shelf.style.display = 'none';
-      }
-    });
-  }
-
   /** Hide video watch page sidebar for distraction-free viewing */
   function hideVideoSidebar(root = document) {
     // Only hide sidebar on video watch pages
@@ -188,7 +168,6 @@
     hideSidebarByText('Shorts', root);
     hideExploreSection(root);
     hideMoreFromYouTube(root);
-    // hideShortsSections(root);
     hideVideoSidebar(root);
   }
 
