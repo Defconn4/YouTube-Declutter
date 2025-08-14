@@ -32,6 +32,22 @@
     }
   }
 
+  /** Restore all previously hidden elements */
+  function restoreHiddenElements() {
+    // Find all elements that were hidden by our extension
+    const hiddenElements = document.querySelectorAll(`[${MARK}]`);
+    hiddenElements.forEach((el) => {
+      el.removeAttribute(MARK);
+      el.style.display = '';
+    });
+
+    // Also remove any CSS classes we added
+    const body = document.body;
+    if (body) {
+      body.classList.remove('ytd-declutter-enabled', 'ytd-declutter-disabled');
+    }
+  }
+
   /** Hard block if user lands on /shorts or /playables */
   function redirectIfBannedLocation() {
     const href = location.href;
@@ -192,17 +208,26 @@
   }
 
   function clean(root = document) {
-    // Only clean if extension is enabled
-    if (!isExtensionEnabled) return;
+    if (isExtensionEnabled) {
+      // Extension is ON - hide elements
+      hideMatches(root);
+      hideSidebarByText('Shorts', root);
+      hideExploreSection(root);
+      hideMoreFromYouTube(root);
+      hideVideoSidebar(root);
+    }
 
-    hideMatches(root);
-    hideSidebarByText('Shorts', root);
-    hideExploreSection(root);
-    hideMoreFromYouTube(root);
-    hideVideoSidebar(root);
-
-    // Update page visibility classes
+    // Always update page visibility classes regardless of state
     updatePageVisibility();
+  }
+
+  /** Force refresh - restore everything then reapply based on current state */
+  function forceRefresh() {
+    // First restore all hidden elements
+    restoreHiddenElements();
+
+    // Then reapply cleaning based on current state
+    clean(document);
   }
 
   // TODO: Future improvement needed for empty content gaps in search results
@@ -254,12 +279,11 @@
     // Allow popup to control extension and force refresh
     chrome.runtime?.onMessage?.addListener((msg) => {
       if (msg?.type === 'forceClean') {
-        clean(document);
+        forceRefresh();
       } else if (msg?.type === 'toggleChanged') {
         isExtensionEnabled = msg.enabled;
-        updatePageVisibility();
-        // Force a clean to apply/remove changes immediately
-        clean(document);
+        // Force refresh to properly apply/remove changes
+        forceRefresh();
       }
     });
   };
