@@ -188,7 +188,7 @@
     hideSidebarByText('Shorts', root);
     hideExploreSection(root);
     hideMoreFromYouTube(root);
-    hideShortsSections(root);
+    // hideShortsSections(root);
     hideVideoSidebar(root);
   }
 
