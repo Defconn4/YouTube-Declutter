@@ -35,3 +35,25 @@ ytd-rich-shelf-renderer:empty,
 ytd-rich-section-renderer:empty {
   display: none !important;
 }
+
+/* Video Watch Page: Hide sidebar and recommendations for distraction-free viewing */
+/* Hide the entire secondary column on watch pages */
+ytd-watch-flexy #secondary,
+ytd-watch-flexy #related,
+#secondary-inner,
+ytd-watch-next-secondary-results-renderer,
+/* Filter chips and recommendation sections */
+#chip-bar,
+#chips,
+yt-chip-cloud-renderer,
+/* Related videos and up next */
+#continuity,
+#watch-next-continuation,
+ytd-compact-autoplay-renderer,
+ytd-item-section-renderer:has(#dismissible),
+/* Comments section for maximum focus */
+#comments,
+ytd-comments,
+ytd-comments-header-renderer {
+  display: none !important;
+}

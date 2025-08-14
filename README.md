@@ -1,6 +1,6 @@
-# YT De-Clutter: Hide Shorts, Playables & Explore
+# YT De-Clutter: Hide Shorts, Playables & Distractions
 
-Simple Chrome extension that removes YouTube **Shorts**, **Playables**, and the **Explore** section across youtube.com (homepage, nav, shelves, chips, and search results).
+Simple Chrome extension that removes YouTube **Shorts**, **Playables**, the **Explore** section, and **video page distractions** across youtube.com for a cleaner, more focused viewing experience.
 
 ## What it removes
 
@@ -9,6 +9,7 @@ Simple Chrome extension that removes YouTube **Shorts**, **Playables**, and the 
 - **Playables** modules and links
 - The entire **Explore** sidebar section (Shopping, Music, etc.)
 - The **More From YouTube** section which details other YouTube services
+- **Video page sidebar** (recommendations, related videos, comments) for distraction-free viewing
 
 ## Extra protections
 
@@ -65,10 +66,15 @@ No analytics, no tracking, no data collection. All logic runs locally in the bro
 
 ## Changelog
 
+### v1.2.0
+
+- Hide **video page sidebar** (recommendations, related videos, filter chips, comments) for distraction-free viewing
+- Enhanced focus mode when watching individual videos
+
 ### v1.1.0
 
 - Hide **Explore** section (and its children) in the sidebar
-- Hide any sidebar item whose text includes **“Shorts”**
+- Hide any sidebar item whose text includes **"Shorts"**
 - Block direct navigation to `/shorts` and `/playables` with instant redirect
 - Intercept clicks that try to open Shorts/Playables
 - Add **popup** that triggers a force clean on the active YouTube tab

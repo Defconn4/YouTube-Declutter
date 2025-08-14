@@ -38,6 +38,23 @@
     'a[href*="/shorts"]',
   ];
 
+  // Video watch page sidebar elements for distraction-free viewing
+  const VIDEO_SIDEBAR_SELECTORS = [
+    '#secondary',
+    '#related',
+    '#secondary-inner',
+    'ytd-watch-next-secondary-results-renderer',
+    '#chip-bar',
+    '#chips',
+    'yt-chip-cloud-renderer',
+    '#continuity',
+    '#watch-next-continuation',
+    'ytd-compact-autoplay-renderer',
+    '#comments',
+    'ytd-comments',
+    'ytd-comments-header-renderer',
+  ];
+
   function hideMatches(root = document) {
     for (const sel of SELECTORS_TO_REMOVE) {
       root.querySelectorAll(sel).forEach((el) => {
@@ -151,12 +168,28 @@
     });
   }
 
+  /** Hide video watch page sidebar for distraction-free viewing */
+  function hideVideoSidebar(root = document) {
+    // Only hide sidebar on video watch pages
+    if (!location.pathname.includes('/watch')) return;
+
+    for (const sel of VIDEO_SIDEBAR_SELECTORS) {
+      root.querySelectorAll(sel).forEach((el) => {
+        if (!el.hasAttribute(MARK)) {
+          el.setAttribute(MARK, '1');
+          el.style.display = 'none';
+        }
+      });
+    }
+  }
+
   function clean(root = document) {
     hideMatches(root);
     hideSidebarByText('Shorts', root);
     hideExploreSection(root);
     hideMoreFromYouTube(root);
     hideShortsSections(root);
+    hideVideoSidebar(root);
   }
 
   // TODO: Future improvement needed for empty content gaps in search results
