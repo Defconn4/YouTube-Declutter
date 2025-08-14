@@ -60,7 +60,7 @@
     }
   });
 
-  // Handle force refresh button
+  // Handle page reload button
   forceRefreshBtn.addEventListener('click', async () => {
     try {
       const [tab] = await chrome.tabs.query({
@@ -68,12 +68,14 @@
         currentWindow: true,
       });
       if (tab && /https?:\/\/(www|m)\.youtube\.com\//i.test(tab.url || '')) {
-        chrome.tabs.sendMessage(tab.id, { type: 'forceClean' });
-        status.textContent = 'Refreshed current tab!';
-        setTimeout(updateUI, 2000);
+        chrome.tabs.reload(tab.id);
+        status.textContent = 'Page reloaded!';
+        setTimeout(updateUI, 1000);
+        // Close popup after reload to avoid confusion
+        setTimeout(() => window.close(), 500);
       }
     } catch (e) {
-      console.log('Could not refresh tab:', e);
+      console.log('Could not reload tab:', e);
     }
   });
 })();

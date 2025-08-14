@@ -32,22 +32,6 @@
     }
   }
 
-  /** Restore all previously hidden elements */
-  function restoreHiddenElements() {
-    // Find all elements that were hidden by our extension
-    const hiddenElements = document.querySelectorAll(`[${MARK}]`);
-    hiddenElements.forEach((el) => {
-      el.removeAttribute(MARK);
-      el.style.display = '';
-    });
-
-    // Also remove any CSS classes we added
-    const body = document.body;
-    if (body) {
-      body.classList.remove('ytd-declutter-enabled', 'ytd-declutter-disabled');
-    }
-  }
-
   /** Hard block if user lands on /shorts or /playables */
   function redirectIfBannedLocation() {
     const href = location.href;
@@ -221,15 +205,6 @@
     updatePageVisibility();
   }
 
-  /** Force refresh - restore everything then reapply based on current state */
-  function forceRefresh() {
-    // First restore all hidden elements
-    restoreHiddenElements();
-
-    // Then reapply cleaning based on current state
-    clean(document);
-  }
-
   // TODO: Future improvement needed for empty content gaps in search results
   // LESSON LEARNED: ytd-item-section-renderer containers are fundamental to YouTube's
   // search result loading architecture. Any attempts to hide these containers
@@ -276,14 +251,12 @@
     });
     window.addEventListener('yt-navigate-finish', () => clean(document));
 
-    // Allow popup to control extension and force refresh
+    // Allow popup to control extension
     chrome.runtime?.onMessage?.addListener((msg) => {
-      if (msg?.type === 'forceClean') {
-        forceRefresh();
-      } else if (msg?.type === 'toggleChanged') {
+      if (msg?.type === 'toggleChanged') {
         isExtensionEnabled = msg.enabled;
-        // Force refresh to properly apply/remove changes
-        forceRefresh();
+        updatePageVisibility();
+        clean(document);
       }
     });
   };
