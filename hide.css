@@ -1,0 +1,62 @@
+/* Only apply decluttering when extension is enabled */
+body.ytd-declutter-enabled ytd-reel-shelf-renderer,
+body.ytd-declutter-enabled ytd-rich-shelf-renderer:has(a[href*='/shorts']),
+body.ytd-declutter-enabled ytd-rich-section-renderer:has(a[href*='/shorts']),
+body.ytd-declutter-enabled ytd-rich-item-renderer:has(a[href*='/shorts']),
+body.ytd-declutter-enabled ytd-video-renderer:has(a[href*='/shorts/']),
+body.ytd-declutter-enabled ytd-compact-video-renderer:has(a[href*='/shorts/']),
+body.ytd-declutter-enabled ytd-rich-section-renderer:has(a[href^='/playables']),
+body.ytd-declutter-enabled ytd-rich-shelf-renderer:has(a[href^='/playables']),
+body.ytd-declutter-enabled ytd-compact-link-renderer:has(a[href^='/playables']),
+body.ytd-declutter-enabled a[href^='/playables'],
+/* Search results Shorts sections */
+/* Hide whole item sections that host a Shorts shelf */
+body.ytd-declutter-enabled ytd-item-section-renderer:has(ytd-reel-shelf-renderer),
+/* Fallbacks: shelf types used in search */
+body.ytd-declutter-enabled ytd-shelf-renderer:has([id="title-text"][title*='Shorts']),
+body.ytd-declutter-enabled ytd-horizontal-card-list-renderer:has(a[href*='/shorts']) {
+  display: none !important;
+}
+
+/* Sidebar: entries that explicitly link to Shorts or mention it by attributes */
+body.ytd-declutter-enabled ytd-guide-entry-renderer:has(a[href*='/shorts']),
+body.ytd-declutter-enabled
+  ytd-mini-guide-entry-renderer:has(a[href*='/shorts']),
+body.ytd-declutter-enabled ytd-guide-entry-renderer:has(a[title*='Shorts']),
+body.ytd-declutter-enabled
+  ytd-mini-guide-entry-renderer:has(a[title*='Shorts']),
+body.ytd-declutter-enabled
+  ytd-guide-entry-renderer:has(a[aria-label*='Shorts']),
+body.ytd-declutter-enabled
+  ytd-mini-guide-entry-renderer:has(a[aria-label*='Shorts']),
+body.ytd-declutter-enabled a[href*='youtube.com/shorts'],
+body.ytd-declutter-enabled a[href*='/shorts'] {
+  display: none !important;
+}
+
+/* Defensive: collapse emptied wrappers */
+body.ytd-declutter-enabled ytd-rich-shelf-renderer:empty,
+body.ytd-declutter-enabled ytd-rich-section-renderer:empty {
+  display: none !important;
+}
+
+/* Video Watch Page: Hide sidebar and recommendations for distraction-free viewing */
+/* Only target elements within watch page containers to avoid affecting search results */
+body.ytd-declutter-enabled ytd-watch-flexy #secondary,
+body.ytd-declutter-enabled ytd-watch-flexy #related,
+body.ytd-declutter-enabled ytd-watch-flexy #secondary-inner,
+body.ytd-declutter-enabled ytd-watch-flexy ytd-watch-next-secondary-results-renderer,
+/* Filter chips and recommendation sections - scoped to watch pages */
+body.ytd-declutter-enabled ytd-watch-flexy #chip-bar,
+body.ytd-declutter-enabled ytd-watch-flexy #chips,
+body.ytd-declutter-enabled ytd-watch-flexy yt-chip-cloud-renderer,
+/* Related videos and up next - scoped to watch pages */
+body.ytd-declutter-enabled ytd-watch-flexy #continuity,
+body.ytd-declutter-enabled ytd-watch-flexy #watch-next-continuation,
+body.ytd-declutter-enabled ytd-watch-flexy ytd-compact-autoplay-renderer,
+/* Comments section for maximum focus - scoped to watch pages */
+body.ytd-declutter-enabled ytd-watch-flexy #comments,
+body.ytd-declutter-enabled ytd-watch-flexy ytd-comments,
+body.ytd-declutter-enabled ytd-watch-flexy ytd-comments-header-renderer {
+  display: none !important;
+}
