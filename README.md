@@ -1,6 +1,6 @@
 # YT De-Clutter: Hide Shorts, Playables & Distractions
 
-Simple Chrome extension that removes YouTube **Shorts**, **Playables**, the **Explore** section, and **video page distractions** across youtube.com for a cleaner, more focused viewing experience.
+A powerful Chrome extension that removes YouTube **Shorts**, **Playables**, the **Explore** section, and **video page distractions** across youtube.com. Features an easy **toggle control** to switch between distraction-free and normal YouTube viewing instantly.
 
 ## What it removes
 
@@ -11,60 +11,92 @@ Simple Chrome extension that removes YouTube **Shorts**, **Playables**, the **Ex
 - The **More From YouTube** section which details other YouTube services
 - **Video page sidebar** (recommendations, related videos, comments) for distraction-free viewing
 
+## Toggle Control
+
+- **🎛️ Easy Toggle**: Click the extension icon to instantly enable/disable all decluttering
+- **Real-time Status**: Visual indicators show current extension state
+- **Persistent Settings**: Your preference is saved across browser sessions
+- **Smart Guidance**: Helpful tips when toggling between states
+
 ## Extra protections
 
 - **Hard block & redirect** if you navigate to `youtube.com/shorts` or `youtube.com/playables`
 - **Click interception** to prevent links that try to open Shorts/Playables
-- **Popup action**: clicking the toolbar icon forces a fresh “clean” on the current YouTube tab
+- **Page reload option**: "Reload Page" button for complete state reset
 
 ## How it works
 
 - **CSS-first** using `:has()` selectors to instantly hide obvious modules
 - **Content script** uses a `MutationObserver` to re-apply hiding on SPA route changes and dynamic loads
-- **Text-based matching** removes sidebar items that _contain_ the word “Shorts”
-- **Optional ruleset** (Declarative Net Request) redirects network navigations to Shorts/Playables at the request layer
+- **Text-based matching** removes sidebar items that _contain_ the word "Shorts"
+- **Conditional styling** applies decluttering only when extension is enabled
+- **Chrome storage** persists toggle state across browser sessions
+- **Declarative Net Request** redirects network navigations to Shorts/Playables at the request layer
 
 ## Files
 
-yt-declutter/
-manifest.json
-content.js # SPA-aware cleaner + redirects + click blocking
-hide.css # Fast, CSS-first removal (:has() selectors)
-popup.html # Minimal popup (no controls)
-popup.js # Sends 'forceClean' to active YouTube tab
-rules_1.json # (optional) DNR redirect for /shorts & /playables
-icons/
-icon16.png
-icon32.png
-icon48.png
-icon128.png
+```
+YouTube-Declutter/
+├── manifest.json          # Extension configuration and permissions
+├── content.js             # Core hiding logic and toggle state management
+├── hide.css               # CSS-first element hiding with conditional scoping
+├── popup.html             # User interface with toggle control
+├── popup.js               # Toggle functionality and page reload logic
+├── rules.json             # Declarative net request URL blocking rules
+└── icons/
+    └── icon.png           # Extension icon
+```
 
-## Install (dev)
+## Installation
 
-1. Visit `chrome://extensions`.
-2. Enable **Developer mode** (top-right).
-3. **Load unpacked** → select the `yt-declutter` folder.
-4. Open YouTube and refresh.
+### Manual Installation (Developer Mode)
 
-> Tip: After updating files, toggle the extension off/on in `chrome://extensions` to reload.
+1. Download or clone this repository
+2. Visit `chrome://extensions`
+3. Enable **Developer mode** (top-right toggle)
+4. Click **Load unpacked** → select the `YouTube-Declutter` folder
+5. Navigate to YouTube and the extension will work automatically
+
+### Usage
+
+1. **Click the extension icon** in your Chrome toolbar
+2. **Toggle the switch** to enable/disable decluttering
+3. **Green = Active** (YouTube is decluttered)
+4. **Red = Disabled** (Normal YouTube with all content visible)
+5. **Click "Reload Page"** for immediate state reset when needed
+
+> **Tip**: When disabling the extension, click "Reload Page" to immediately see all YouTube content (comments, recommendations, etc.)
 
 ## Permissions
 
-- `host_permissions`: `https://www.youtube.com/*`, `https://m.youtube.com/*`
-- `tabs`, `scripting`: needed for messaging and content script behavior
-- _(Optional)_ `declarativeNetRequest`, `declarativeNetRequestWithHostAccess` if you include `rules_1.json`
+- **`host_permissions`**: `https://www.youtube.com/*`, `https://m.youtube.com/*` - Access to YouTube pages
+- **`tabs`, `scripting`**: Messaging between popup and content script, page reload functionality
+- **`storage`**: Persist toggle state across browser sessions
+- **`declarativeNetRequest`**: Block navigation to Shorts/Playables URLs at network level
 
 ## Troubleshooting
 
-- **Icon not showing?** Ensure `icons/icon16|32|48|128|512.png` exist and are referenced in both `"icons"` and `"action.default_icon"` in `manifest.json`.
-- **Something slips through?** YouTube changes markup often. Add a new selector to `hide.css` or extend `SELECTORS_TO_REMOVE` in `content.js`.
-- **Popup seems empty?** That’s by design—opening it sends a one-shot `forceClean` message to the active YouTube tab.
+- **Extension not working?** Make sure it's enabled in `chrome://extensions` and refresh YouTube
+- **Toggle not responding?** Try clicking "Reload Page" in the popup for a clean reset
+- **Elements still showing?** YouTube changes markup frequently - toggle off and on again, or reload the page
+- **Popup not opening?** Check that the extension icon is visible in your Chrome toolbar
+- **Want to see comments/recommendations temporarily?** Just toggle the extension off and reload the page
 
 ## Privacy
 
 No analytics, no tracking, no data collection. All logic runs locally in the browser.
 
 ## Changelog
+
+### v1.3.0 ✨ **Current Version**
+
+- **🎛️ Toggle Control**: Easy on/off switch with visual status indicators
+- **💾 Persistent Settings**: Toggle state saved across browser sessions
+- **🔄 Page Reload**: "Reload Page" button for complete state reset
+- **📱 Enhanced UI**: Professional popup interface with real-time feedback
+- **🎯 Smart Guidance**: Helpful tips when switching between modes
+- **⚡ Instant Response**: Toggle changes apply immediately (CSS class system)
+- **🛡️ Improved Stability**: Refined selectors to prevent loading issues
 
 ### v1.2.0
 
@@ -79,7 +111,7 @@ No analytics, no tracking, no data collection. All logic runs locally in the bro
 - Intercept clicks that try to open Shorts/Playables
 - Add **popup** that triggers a force clean on the active YouTube tab
 - Proper **icons** wired up for extension entry and toolbar
-- _(Optional)_ Add `rules_1.json` for request-layer redirects via DNR
+- Declarative net request rules for network-layer blocking
 
 ### v1.0.0
 
