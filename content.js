@@ -4,6 +4,34 @@
   const MARK = 'data-ytd-decluttered';
   const BLOCK_PATTERNS = [/\/shorts\b/i, /\/playables\b/i];
 
+  // Extension toggle state
+  let isExtensionEnabled = true;
+
+  /** Load extension toggle state from storage */
+  async function loadToggleState() {
+    try {
+      const result = await chrome.storage.sync.get(['ytDeclutterEnabled']);
+      isExtensionEnabled = result.ytDeclutterEnabled !== false; // Default to true
+      updatePageVisibility();
+    } catch (e) {
+      console.log('Could not load toggle state:', e);
+    }
+  }
+
+  /** Show or hide decluttered elements based on toggle state */
+  function updatePageVisibility() {
+    const body = document.body;
+    if (!body) return;
+
+    if (isExtensionEnabled) {
+      body.classList.remove('ytd-declutter-disabled');
+      body.classList.add('ytd-declutter-enabled');
+    } else {
+      body.classList.remove('ytd-declutter-enabled');
+      body.classList.add('ytd-declutter-disabled');
+    }
+  }
+
   /** Hard block if user lands on /shorts or /playables */
   function redirectIfBannedLocation() {
     const href = location.href;
@@ -164,11 +192,17 @@
   }
 
   function clean(root = document) {
+    // Only clean if extension is enabled
+    if (!isExtensionEnabled) return;
+
     hideMatches(root);
     hideSidebarByText('Shorts', root);
     hideExploreSection(root);
     hideMoreFromYouTube(root);
     hideVideoSidebar(root);
+
+    // Update page visibility classes
+    updatePageVisibility();
   }
 
   // TODO: Future improvement needed for empty content gaps in search results
@@ -185,7 +219,10 @@
   redirectIfBannedLocation();
   blockBannedClicks();
 
-  const init = () => {
+  const init = async () => {
+    // Load toggle state first
+    await loadToggleState();
+
     clean(document);
 
     // Mutation observer for SPA updates
@@ -214,9 +251,16 @@
     });
     window.addEventListener('yt-navigate-finish', () => clean(document));
 
-    // Allow popup to ask us to re-run cleaning
+    // Allow popup to control extension and force refresh
     chrome.runtime?.onMessage?.addListener((msg) => {
-      if (msg?.type === 'forceClean') clean(document);
+      if (msg?.type === 'forceClean') {
+        clean(document);
+      } else if (msg?.type === 'toggleChanged') {
+        isExtensionEnabled = msg.enabled;
+        updatePageVisibility();
+        // Force a clean to apply/remove changes immediately
+        clean(document);
+      }
     });
   };
 
