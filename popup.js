@@ -3,6 +3,7 @@
   const toggleSwitch = document.getElementById('toggleSwitch');
   const status = document.getElementById('status');
   const forceRefreshBtn = document.getElementById('forceRefresh');
+  const refreshReminder = document.getElementById('refreshReminder');
 
   // Load current toggle state
   let isEnabled = true; // Default to enabled
@@ -19,10 +20,13 @@
       toggleSwitch.classList.add('active');
       status.textContent = 'Extension is ACTIVE - YouTube is decluttered';
       status.style.color = '#4CAF50';
+      refreshReminder.classList.remove('show');
     } else {
       toggleSwitch.classList.remove('active');
-      status.textContent = 'Extension is DISABLED - Normal YouTube view';
+      status.textContent =
+        'Extension is DISABLED - Refresh page for normal YouTube';
       status.style.color = '#f44336';
+      refreshReminder.classList.add('show');
     }
   }
 

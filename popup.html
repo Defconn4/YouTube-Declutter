@@ -74,6 +74,22 @@
         font-size: 12px;
         color: #666;
       }
+
+      .refresh-reminder {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 4px;
+        padding: 8px;
+        margin: 10px 0;
+        font-size: 12px;
+        color: #856404;
+        text-align: center;
+        display: none;
+      }
+
+      .refresh-reminder.show {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -87,6 +103,10 @@
     </div>
 
     <div class="status" id="status">Loading...</div>
+
+    <div class="refresh-reminder" id="refreshReminder">
+      💡 Tip: Click "Reload Page" below to see normal YouTube immediately
+    </div>
 
     <p>
       This extension removes YouTube Shorts, Playables, the Explore section, and
