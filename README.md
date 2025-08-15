@@ -70,7 +70,7 @@ YouTube-Declutter/
 ## Permissions
 
 - **`host_permissions`**: `https://www.youtube.com/*`, `https://m.youtube.com/*` - Access to YouTube pages
-- **`tabs`, `scripting`**: Messaging between popup and content script, page reload functionality
+- **`tabs`**: Messaging between popup and content script, page reload functionality
 - **`storage`**: Persist toggle state across browser sessions
 - **`declarativeNetRequest`**: Block navigation to Shorts/Playables URLs at network level
 
